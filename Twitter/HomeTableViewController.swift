@@ -18,6 +18,8 @@ class HomeTableViewController: UITableViewController {
         super.viewDidLoad()
         myRefreshControl.addTarget(self, action: #selector(loadTweets), for: .valueChanged)
         tableView.refreshControl = myRefreshControl
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 150
         
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -92,6 +94,7 @@ class HomeTableViewController: UITableViewController {
         if let imageData = data{
             cell.profileImageView.image = UIImage(data: imageData)
         }
+        cell.setFavorite(tweetArray[indexPath.row]["favorited"] as! Bool)
         return cell
     }
     
