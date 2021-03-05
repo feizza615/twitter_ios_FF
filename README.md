@@ -1,6 +1,6 @@
-# Project 3 - *Name of App Here*
+# Project 3 - *Twitter Reader*
 
-**twitter_ios_FF** is a basic twitter app to read your tweets.
+**Twitter Reader** is a basic twitter app to read your tweets.
 
 
 # Twitter - Part II
