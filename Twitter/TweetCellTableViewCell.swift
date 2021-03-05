@@ -9,17 +9,53 @@
 import UIKit
 
 class TweetCellTableViewCell: UITableViewCell {
+    var favorited:Bool = false
+    var tweetId:Int = -1
+  
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var tweetContent: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
+    
     @IBAction func favoriteTweet(_ sender: Any) {
-        
+        let toBeFavorited = !favorited
+        if(toBeFavorited){
+            TwitterAPICaller.client?.favoriteTweet(tweetId: tweetId, success: {
+                self.setFavorite(true)
+            }, failure: { (error) in
+                print("Favorite is not working")
+            })
+        }
+        else{
+            TwitterAPICaller.client?.unfavoriteTweet(tweetId: tweetId, success: {
+                self.setFavorite(false)
+            }, failure: { (error) in
+                print("Unfavorite did not work")
+            })
+        }
     }
     
-    var favorited:Bool = false
+    @IBAction func retweet(_ sender: Any) {
+        TwitterAPICaller.client?.retweeted(tweetId: tweetId, success: {
+            self.setRetweet(true)
+        }, failure: { (error) in
+            print("Error in retweeted\(error)")
+        })
+    }
+
+    func setRetweet(_ isRetweeted:Bool){
+        if(isRetweeted){
+            retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControl.State.normal)
+            retweetButton.isEnabled = false
+        }
+        else{
+            retweetButton.setImage(UIImage(named: "retweet-icon"), for: UIControl.State.normal)
+            retweetButton.isEnabled = true
+        }
+    }
+    
     func setFavorite(_ isFavorited:Bool){
         favorited = isFavorited
         if(favorited){
